@@ -413,7 +413,7 @@ section, .hero, .philosophy, .c-section, .quote, .g-section, .contact-section, .
 
 .hero-sub {
   font-family: var(--font-serif);
-  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  font-size: clamp(1rem, 2.2vw, 1.9rem);
   font-weight: 300;
   letter-spacing: 0.08em;
   color: var(--text-muted);
@@ -558,7 +558,7 @@ section, .hero, .philosophy, .c-section, .quote, .g-section, .contact-section, .
 }
 
 .phil-text {
-  font-size: 0.98rem;
+  font-size: 1.40rem;
   color: var(--text-muted);
   line-height: 2;
   text-align: justify;
@@ -566,7 +566,7 @@ section, .hero, .philosophy, .c-section, .quote, .g-section, .contact-section, .
 
 .phil-highlight {
   font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-size: 1.60rem;
   font-style: italic;
   color: var(--text-main);
   border-left: 1.5px solid var(--accent);

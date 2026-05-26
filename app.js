@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentActiveModalProduct = null;
 
   // Teléfono de WhatsApp de la tienda (Costa Rica: +506)
-  const WHATSAPP_NUMBER = '50688888888'; 
+  const WHATSAPP_NUMBER = '50671578301'; 
 
   // Elementos del DOM reutilizables
   const body = document.body;
@@ -331,6 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (category === 'bikini') categoryName = 'Bikini';
       if (category === 'enterizo') categoryName = 'Enterizo / Monokini';
       if (category === 'accesorio') categoryName = 'Accesorio';
+      if (category === 'vestido') categoryName = 'Vestido';
 
       openProductModal({ id, name, price, img, category, categoryName, desc });
     });
@@ -492,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cart.length === 0) return;
 
     let subtotal = 0;
-    let messageText = '¡Hola Les Muses CR! 🌊🌸 Me encantaría adquirir las siguientes piezas:\n\n';
+    let messageText = '¡Hola Les Muses CR! Me encantaría adquirir las siguientes piezas:\n\n';
 
     cart.forEach(item => {
       const itemTotal = parseInt(item.price) * item.quantity;
@@ -500,8 +501,8 @@ document.addEventListener('DOMContentLoaded', () => {
       messageText += `• *${item.name}* (Talla ${item.size}) x${item.quantity} - ₡${itemTotal.toLocaleString('es-CR')}\n`;
     });
 
-    messageText += `\n💵 *Total estimado:* ₡${subtotal.toLocaleString('es-CR')}\n`;
-    messageText += `📍 Envío a convenir en Costa Rica.`;
+    messageText += `\n *Total estimado:* ₡${subtotal.toLocaleString('es-CR')}\n`;
+    messageText += ` Envío a convenir en Costa Rica.`;
 
     const encodedMessage = encodeURIComponent(messageText);
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
@@ -573,7 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.removeAttribute('disabled');
         
         // Alerta elegante de suscripción
-        alert('✨ ¡Te has suscrito con éxito a las novedades de Les Muses CR! Estarás al tanto de nuestras colecciones exclusivas.');
+        alert(' ¡Te has suscrito con éxito a las novedades de Les Muses CR! Estarás al tanto de nuestras colecciones exclusivas.');
         
         newsletterForm.reset();
       }, 1000);
