@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let cart = JSON.parse(localStorage.getItem('lesmuses_cart')) || [];
   let currentActiveModalProduct = null;
 
-  // Teléfono de WhatsApp de la tienda (Costa Rica: +506)
-  const WHATSAPP_NUMBER = '50671578301'; 
+  const INSTAGRAM_HANDLE = 'lesmuses.cr';
 
   // Elementos del DOM reutilizables
   const body = document.body;
@@ -70,6 +69,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ==========================================================================
+  // SCROLL PRECISO EN NAV — Calcula offset real del header (compatible con zoom CSS)
+  // ==========================================================================
+  const smoothScrollTo = (targetId) => {
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    const headerH = header.getBoundingClientRect().height;
+    // Saltar al primer hijo de contenido real (ignora esculturas/blobs decorativos)
+    const contentEl = target.querySelector(':scope > :not(.sculpt):not(.blob)') || target;
+    const rect = contentEl.getBoundingClientRect();
+    const scrollTop = window.scrollY + rect.top - headerH - 16;
+    window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href === '#' || !document.querySelector(href)) return;
+      e.preventDefault();
+      smoothScrollTo(href);
+    });
+  });
 
   // ==========================================================================
   // CARRUSEL DE DESTACADOS (SWIPE + NAVIGATION) - BUCLE INFINITO SEAMLESS
@@ -278,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modalCategory.textContent = productData.categoryName || 'Colección';
     modalTitle.textContent = productData.name;
     modalPrice.textContent = `₡${parseInt(productData.price).toLocaleString('es-CR')}`;
-    modalDesc.textContent = productData.desc || 'Una pieza artesanal de alta calidad, confeccionada con telas premium para ofrecer la máxima comodidad y elegancia bajo el sol.';
+    modalDesc.textContent = productData.desc || 'Una pieza de diseño exclusivo elaborada con telas premium para ofrecer la máxima comodidad y elegancia bajo el sol.';
 
     // Reiniciar selector de talla a 'M'
     sizeOptions.forEach(o => o.classList.remove('active'));
@@ -359,9 +381,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const cartClearBtn = document.getElementById('cart-clear');
+
   if (cartTrigger) cartTrigger.addEventListener('click', openCart);
   if (cartClose) cartClose.addEventListener('click', closeCart);
   if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
+  if (cartClearBtn) cartClearBtn.addEventListener('click', () => clearCart());
+
+  // Panel de confirmación de pedido — abre Instagram con mensaje listo
+  const showOrderPanel = (messageText) => {
+    const existing = document.getElementById('order-panel-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'order-panel-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(31,21,13,0.55);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:1.5rem;animation:fadeIn 0.3s ease;';
+
+    const igUrl = `https://ig.me/m/${INSTAGRAM_HANDLE}`;
+    const lines = messageText.split('\n').map(l => `<div style="margin:0.15rem 0">${l || '&nbsp;'}</div>`).join('');
+
+    overlay.innerHTML = `
+      <div style="background:var(--bg-primary);max-width:480px;width:100%;border:0.5px solid var(--border-light);box-shadow:0 25px 60px rgba(42,31,20,0.2);display:flex;flex-direction:column;gap:0;">
+        <div style="padding:1.8rem 2rem 1rem;border-bottom:0.5px solid var(--border-light);display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <span style="font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:0.4rem;">Tu pedido</span>
+            <span style="font-family:var(--font-serif);font-size:1.5rem;font-style:italic;">Listo para enviar</span>
+          </div>
+          <button id="order-panel-close" style="width:36px;height:36px;border:0.5px solid var(--border-dark);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-main);flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div style="padding:1.5rem 2rem;background:var(--bg-secondary);font-family:var(--font-sans);font-size:0.85rem;line-height:1.8;color:var(--text-main);max-height:200px;overflow-y:auto;white-space:pre-wrap;">${lines}</div>
+        <div style="padding:1.5rem 2rem;display:flex;flex-direction:column;gap:0.8rem;">
+          <a id="order-ig-link" href="${igUrl}" target="_blank" rel="noopener"
+            style="display:flex;align-items:center;justify-content:center;gap:0.6rem;background:var(--text-main);color:var(--bg-primary);padding:1rem 2rem;font-size:0.75rem;letter-spacing:0.22em;text-transform:uppercase;text-decoration:none;transition:opacity 0.2s;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+            Abrir DM de Instagram
+          </a>
+          <button id="order-copy-btn"
+            style="display:flex;align-items:center;justify-content:center;gap:0.6rem;border:0.5px solid var(--border-dark);background:none;padding:0.9rem 2rem;font-size:0.75rem;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;color:var(--text-main);transition:all 0.2s;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copiar mensaje
+          </button>
+          <p style="text-align:center;font-size:0.72rem;color:var(--text-muted);margin-top:0.2rem;">Abre el DM → copia y pega el mensaje → envía</p>
+        </div>
+      </div>`;
+
+    document.body.appendChild(overlay);
+
+    document.getElementById('order-panel-close').addEventListener('click', () => overlay.remove());
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+    document.getElementById('order-copy-btn').addEventListener('click', () => {
+      navigator.clipboard.writeText(messageText).catch(() => {});
+      const btn = document.getElementById('order-copy-btn');
+      btn.textContent = '✓ Copiado';
+      btn.style.borderColor = 'var(--accent)';
+      btn.style.color = 'var(--accent)';
+      setTimeout(() => {
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar mensaje`;
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }, 2500);
+    });
+
+    // Auto-copiar al portapapeles al abrir el panel
+    navigator.clipboard.writeText(messageText).catch(() => {});
+  };
 
   // Renderizar contenido del carrito
   const renderCart = () => {
@@ -457,14 +543,20 @@ document.addEventListener('DOMContentLoaded', () => {
     saveCart();
   };
 
+  // Vaciar carrito completo
+  const clearCart = () => {
+    cart = [];
+    saveCart();
+  };
+
   // Añadir producto desde el Modal
   addToCartBtn.addEventListener('click', () => {
     if (!currentActiveModalProduct) return;
 
     const { id, name, price, img } = currentActiveModalProduct;
 
-    // Comprobar si ya existe un artículo idéntico con la misma talla
-    const existingIndex = cart.findIndex(item => item.id === id && item.size === selectedSize);
+    // Clave única por nombre + talla (id tiene duplicados en HTML)
+    const existingIndex = cart.findIndex(item => item.name === name && item.size === selectedSize);
 
     if (existingIndex > -1) {
       cart[existingIndex].quantity += 1;
@@ -481,34 +573,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     saveCart();
     closeProductModal();
-    
-    // Retardo sutil y abrir el carrito para mostrar el artículo añadido
+
+    // Toast de confirmación — sin abrir el carrito para seguir navegando
+    const toast = document.createElement('div');
+    toast.textContent = `✓ ${name} añadido al carrito`;
+    toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-dark);color:var(--bg-primary);padding:0.8rem 1.6rem;font-size:0.78rem;letter-spacing:0.08em;z-index:999;opacity:0;transition:all 0.3s ease;white-space:nowrap;pointer-events:none;';
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => { toast.style.opacity = '1'; toast.style.transform = 'translateX(-50%) translateY(0)'; });
     setTimeout(() => {
-      openCart();
-    }, 300);
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(20px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 2200);
   });
 
-  // Finalizar Compra - Enlace de WhatsApp con mensaje detallado
+  // Finalizar Compra - Instagram
   checkoutBtn.addEventListener('click', () => {
     if (cart.length === 0) return;
 
     let subtotal = 0;
-    let messageText = '¡Hola Les Muses CR! Me encantaría adquirir las siguientes piezas:\n\n';
+    let messageText = '¡Hola Les Muses CR! Me encantaría adquirir:\n\n';
 
     cart.forEach(item => {
       const itemTotal = parseInt(item.price) * item.quantity;
       subtotal += itemTotal;
-      messageText += `• *${item.name}* (Talla ${item.size}) x${item.quantity} - ₡${itemTotal.toLocaleString('es-CR')}\n`;
+      messageText += `• ${item.name} (Talla ${item.size}) x${item.quantity} — ₡${itemTotal.toLocaleString('es-CR')}\n`;
     });
 
-    messageText += `\n *Total estimado:* ₡${subtotal.toLocaleString('es-CR')}\n`;
-    messageText += ` Envío a convenir en Costa Rica.`;
+    messageText += `\nTotal: ₡${subtotal.toLocaleString('es-CR')}\nEnvío a convenir en Costa Rica.`;
 
-    const encodedMessage = encodeURIComponent(messageText);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
-    // Abrir enlace en pestaña nueva
-    window.open(whatsappUrl, '_blank');
+    if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+      // Móvil: share sheet nativo — el texto llega directo al chat de Instagram
+      navigator.share({ text: messageText }).catch(() => showOrderPanel(messageText));
+    } else {
+      // PC y tablets: panel con mensaje listo + link directo (no window.open)
+      showOrderPanel(messageText);
+    }
   });
 
   // Carga inicial del carrito
@@ -608,4 +708,154 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   
   observeCards();
+
+  // ==========================================================================
+  // BARRA DE ANUNCIO — DISMISS
+  // ==========================================================================
+  const announceBar = document.getElementById('announce-bar');
+  const announceClose = document.getElementById('announce-close');
+  if (announceBar && announceClose) {
+    announceClose.addEventListener('click', () => {
+      announceBar.style.height = announceBar.offsetHeight + 'px';
+      requestAnimationFrame(() => {
+        announceBar.style.transition = 'height 0.3s ease, opacity 0.3s ease';
+        announceBar.style.height = '0';
+        announceBar.style.opacity = '0';
+        announceBar.style.overflow = 'hidden';
+        announceBar.style.padding = '0';
+      });
+      setTimeout(() => announceBar.remove(), 320);
+    });
+  }
+
+  // ==========================================================================
+  // FILTRO POR TALLA + CATEGORÍA (COMBINADO)
+  // ==========================================================================
+  let activeSize = 'all';
+  let activeCategory = 'all';
+
+  const applyFilters = () => {
+    productCards.forEach((card, index) => {
+      const cardCategory = card.getAttribute('data-category');
+      const cardSizes = card.getAttribute('data-sizes') || 'all';
+      const matchesCategory = activeCategory === 'all' || cardCategory === activeCategory;
+      const matchesSize = activeSize === 'all' || cardSizes === 'all' || cardSizes.split(',').includes(activeSize);
+      if (matchesCategory && matchesSize) {
+        card.classList.remove('hidden');
+        setTimeout(() => card.classList.add('visible'), index * 40);
+      } else {
+        card.classList.add('hidden');
+        card.classList.remove('visible');
+      }
+    });
+    updateSizeCounts();
+  };
+
+  // Contador dinámico por talla según categoría activa
+  const updateSizeCounts = () => {
+    document.querySelectorAll('.size-btn').forEach(btn => {
+      const size = btn.getAttribute('data-size');
+      const count = Array.from(productCards).filter(card => {
+        const cat = card.getAttribute('data-category');
+        const sizes = card.getAttribute('data-sizes') || 'all';
+        const matchesCat = activeCategory === 'all' || cat === activeCategory;
+        const matchesSize = size === 'all' || sizes === 'all' || sizes.split(',').includes(size);
+        return matchesCat && matchesSize;
+      }).length;
+      const label = size === 'all' ? 'Todas' : size;
+      btn.textContent = label;
+      btn.disabled = count === 0;
+      btn.classList.toggle('size-btn-empty', count === 0);
+    });
+  };
+
+  // Reemplazar los listeners originales de categoría para usar applyFilters combinado
+  filterButtons.forEach(btn => btn.replaceWith(btn.cloneNode(true)));
+
+  document.querySelectorAll('.filter-btn:not(.size-btn)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn:not(.size-btn)').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = btn.getAttribute('data-filter');
+      applyFilters();
+    });
+  });
+
+  // Re-query size buttons DESPUÉS del replaceWith para obtener los nodos del DOM actuales
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeSize = btn.getAttribute('data-size');
+      applyFilters();
+    });
+  });
+
+  // Inicializar contadores al cargar
+  updateSizeCounts();
+
+  // ==========================================================================
+  // GUÍA DE TALLAS
+  // ==========================================================================
+  const sizeGuideModal = document.getElementById('size-guide-modal');
+  const sizeGuideBtn = document.getElementById('size-guide-btn');
+  const sgClose = document.getElementById('sg-close');
+
+  if (sizeGuideBtn && sizeGuideModal) {
+    sizeGuideBtn.addEventListener('click', () => sizeGuideModal.showModal());
+    sgClose.addEventListener('click', () => sizeGuideModal.close());
+    sizeGuideModal.addEventListener('click', (e) => {
+      if (e.target === sizeGuideModal) sizeGuideModal.close();
+    });
+  }
+
+  // ==========================================================================
+  // POPUP NEWSLETTER CON INCENTIVO
+  // ==========================================================================
+  const nlOverlay = document.getElementById('nl-popup-overlay');
+  const nlClose = document.getElementById('nl-popup-close');
+  const nlSkip = document.getElementById('nl-popup-skip');
+  const nlForm = document.getElementById('nl-popup-form');
+
+  const hideNlPopup = () => {
+    nlOverlay.classList.remove('visible');
+    nlOverlay.setAttribute('aria-hidden', 'true');
+  };
+
+  if (nlOverlay && !localStorage.getItem('lesmuses_newsletter')) {
+    setTimeout(() => {
+      nlOverlay.classList.add('visible');
+      nlOverlay.setAttribute('aria-hidden', 'false');
+    }, 4500);
+
+    nlClose.addEventListener('click', () => {
+      hideNlPopup();
+      localStorage.setItem('lesmuses_newsletter', 'dismissed');
+    });
+    nlSkip.addEventListener('click', () => {
+      hideNlPopup();
+      localStorage.setItem('lesmuses_newsletter', 'dismissed');
+    });
+    nlOverlay.addEventListener('click', (e) => {
+      if (e.target === nlOverlay) {
+        hideNlPopup();
+        localStorage.setItem('lesmuses_newsletter', 'dismissed');
+      }
+    });
+    if (nlForm) {
+      nlForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = nlForm.querySelector('button[type="submit"]');
+        btn.textContent = 'Codigo: MUSA10';
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--accent)';
+        btn.style.border = '0.5px solid var(--accent)';
+        btn.disabled = true;
+        localStorage.setItem('lesmuses_newsletter', 'subscribed');
+        setTimeout(hideNlPopup, 2800);
+      });
+    }
+  }
+
 });

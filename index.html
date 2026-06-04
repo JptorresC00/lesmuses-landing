@@ -6,16 +6,51 @@
   <title>Les Muses CR | Trajes de Baño Premium | Guanacaste, Costa Rica</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Descubre Les Muses CR, trajes de baño y bikinis premium inspirados en el arte clásico y el mar de Guanacaste, Costa Rica. Confección artesanal hecha para la musa que eres.">
-  <meta name="keywords" content="bikinis, trajes de baño, moda playa, costa rica, guanacaste, les muses, ropa de playa de lujo, artesanal">
+  <meta name="description" content="Descubre Les Muses CR, trajes de baño y bikinis premium inspirados en el arte clásico y el mar de Guanacaste, Costa Rica. Diseñados para la musa que eres.">
+  <meta name="keywords" content="bikinis, trajes de baño, moda playa, costa rica, guanacaste, les muses, ropa de playa de lujo, diseño exclusivo">
   <meta name="author" content="Les Muses CR">
   
   <!-- OpenGraph Social Tags -->
   <meta property="og:title" content="Les Muses CR | Trajes de Baño Premium | Costa Rica">
-  <meta property="og:description" content="Bikinis y enterizos de lujo inspirados en el arte clásico. Confeccionados a mano para abrazar el cuerpo como el arte abraza el alma.">
+  <meta property="og:description" content="Bikinis y enterizos de lujo inspirados en el arte clásico. Para abrazar el cuerpo como el arte abraza el alma.">
   <meta property="og:image" content="assets/images/hero_swimwear.png">
   <meta property="og:url" content="https://lesmuses.cr">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CR">
+  <meta property="og:site_name" content="Les Muses CR">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Les Muses CR | Trajes de Baño Premium">
+  <meta name="twitter:description" content="Bikinis y enterizos de lujo. Diseño exclusivo en Costa Rica.">
+  <meta name="twitter:image" content="assets/images/hero_swimwear.png">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://lesmuses.cr">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ClothingStore",
+    "name": "Les Muses CR",
+    "description": "Trajes de baño y bikinis premium de diseño exclusivo en Costa Rica.",
+    "url": "https://lesmuses.cr",
+    "telephone": "+50662927788",
+    "email": "hola@lesmuses.cr",
+    "image": "assets/images/hero_swimwear.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Liberia",
+      "addressRegion": "Guanacaste",
+      "addressCountry": "CR"
+    },
+    "sameAs": ["https://www.instagram.com/lesmuses.cr/"],
+    "priceRange": "₡15,000 - ₡30,000",
+    "currenciesAccepted": "CRC",
+    "paymentAccepted": "Cash, SINPE Móvil"
+  }
+  </script>
 
   <!-- Estilos y Tipografías -->
   <link rel="stylesheet" href="styles.css">
@@ -24,6 +59,18 @@
   <script src="app.js" defer></script>
 </head>
 <body>
+
+  <!-- BARRA DE ANUNCIO -->
+  <div class="announce-bar" id="announce-bar">
+    <div class="announce-content">
+      <span>Envío gratuito a todo Costa Rica en compras de ₡50,000 o más</span>
+      <span class="announce-sep">·</span>
+      <span>Diseño exclusivo &nbsp;·&nbsp; Textiles premium</span>
+    </div>
+    <button class="announce-close" id="announce-close" aria-label="Cerrar aviso">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
 
   <!-- NAVEGACIÓN PRINCIPAL (HEADER) -->
   <header>
@@ -69,30 +116,65 @@
       
       <!-- Esculturas clásicas flotantes -->
       <img class="sculpt" src="assets/images/sculpt_venus.png"
-        alt="Escultura Venus de Milo" aria-hidden="true" style="height:86%; bottom:0; right:0%; animation:floatA 10s ease-in-out infinite">
+        alt="" aria-hidden="true" loading="eager" decoding="async" style="height:86%; bottom:0; right:0%; animation:floatA 10s ease-in-out infinite">
       <img class="sculpt" src="assets/images/sculpt_diana.png"
-        alt="Escultura Diana de Versalles" aria-hidden="true" style="height:70%; bottom:0; left:0%; opacity:0.20; animation:floatB 13s ease-in-out infinite">
+        alt="" aria-hidden="true" loading="lazy" decoding="async" style="height:70%; bottom:0; left:0%; opacity:0.20; animation:floatB 13s ease-in-out infinite">
 
       <div class="hero-container">
         <!-- Columna de Texto -->
         <div class="hero-text-col">
           <p class="hero-eye">Costa Rica &nbsp;·&nbsp; Arte &nbsp;·&nbsp; Mar</p>
           <h1 class="hero-title">Hecha<br>para la <em>musa</em><br>que eres</h1>
-          <p class="hero-sub">Bikinis y enterizos premium creados para abrazar el cuerpo como el arte abraza el alma. Sol, arena y libertad frente al mar.</p>
+          <p class="hero-sub">Bikinis y enterizos premium para abrazar el cuerpo como el arte abraza el alma. Sol, arena y libertad frente al mar.</p>
           <a href="#coleccion" class="btn btn-hero">Ver colección</a>
         </div>
         <!-- Columna de Imagen Editorial -->
         <div class="hero-image-col">
-          <img src="assets/images/hero_swimwear.png" alt="Colección Les Muses CR Swimwear Editorial">
+          <img src="assets/images/hero_swimwear.png" alt="Colección Les Muses CR Swimwear Editorial" loading="eager" decoding="sync" fetchpriority="high">
         </div>
       </div>
     </section>
+
+    <!-- STRIP DE INFORMACIÓN DE ENVÍO -->
+    <div class="shipping-strip">
+      <div class="shipping-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <div>
+          <span class="shipping-label">Envío a todo CR</span>
+          <span class="shipping-sub">Gratuito sobre ₡50,000</span>
+        </div>
+      </div>
+      <div class="shipping-divider"></div>
+      <div class="shipping-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/><path d="M12 8v4l3 3"/></svg>
+        <div>
+          <span class="shipping-label">Entrega en 3–5 días</span>
+          <span class="shipping-sub">Zona metropolitana y Guanacaste</span>
+        </div>
+      </div>
+      <div class="shipping-divider"></div>
+      <div class="shipping-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div>
+          <span class="shipping-label">Pago seguro</span>
+          <span class="shipping-sub">SINPE Móvil · Efectivo</span>
+        </div>
+      </div>
+      <div class="shipping-divider"></div>
+      <div class="shipping-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <div>
+          <span class="shipping-label">Diseño exclusivo</span>
+          <span class="shipping-sub">100% costarricense</span>
+        </div>
+      </div>
+    </div>
 
     <!-- SECCIÓN FILOSOFÍA (NUEVA) -->
     <section class="philosophy" id="filosofia">
       <div class="philosophy-container">
         <div class="phil-image-wrap">
-          <img src="assets/images/swimwear_flatlay.png" alt="Diseño y elegancia Les Muses CR" class="phil-image">
+          <img src="assets/images/swimwear_flatlay.png" alt="Diseño y elegancia Les Muses CR" class="phil-image" loading="lazy" decoding="async">
           <div class="phil-image-overlay"></div>
         </div>
         <div class="phil-content">
@@ -100,9 +182,9 @@
             <span class="s-label">Nuestra Filosofía</span>
             <h2 class="s-title">El Arte del Bikini</h2>
           </div>
-          <p class="phil-text">En <strong>Les Muses CR</strong>, concebimos cada diseño como una escultura viviente. Inspiradas por la belleza eterna del arte clásico y la calidez del mar costarricense, creamos piezas que celebran todas las siluetas con sofisticación.</p>
+          <p class="phil-text">En <strong>Les Muses CR</strong>, cada diseño es una escultura viviente. Inspiradas por la belleza eterna del arte clásico y la calidez del mar costarricense, estas piezas que celebran todas las siluetas con sofisticación.</p>
           <p class="phil-highlight">"No vestimos cuerpos; enmarcamos obras de arte."</p>
-          <p class="phil-text">Cada traje de baño se diseña y confecciona artesanalmente en Costa Rica utilizando textiles premium de tacto sedoso y secado rápido. Cuidamos cada costura y detalle metálico para ofrecerte piezas duraderas, cómodas y de estética inigualable.</p>
+          <p class="phil-text">Cada traje de baño nace de un proceso de diseño cuidadoso en Costa Rica, seleccionando textiles premium de tacto sedoso y secado rápido. Cuidamos cada detalle — costuras, herrajes y acabados — para ofrecerte piezas duraderas, cómodas y de estética inigualable.</p>
         </div>
       </div>
     </section>
@@ -110,7 +192,7 @@
     <!-- SECCIÓN CAROUSEL (DESTACADOS) -->
     <section class="c-section" id="destacados">
       <img class="sculpt" src="assets/images/sculpt_nike.png"
-        alt="Escultura Victoria de Samotracias" aria-hidden="true" style="height:92%; top:4%; right:1%; animation:floatA 11s ease-in-out infinite">
+        alt="" aria-hidden="true" loading="lazy" decoding="async" style="height:92%; top:4%; right:1%; opacity:0.22; animation:floatA 11s ease-in-out infinite">
 
       <div class="s-head">
         <span class="s-label">Destacados</span>
@@ -129,7 +211,7 @@
             <!-- Slides del Carousel (Estilo Tarjeta interactiva) -->
             <div class="c-slide p-card" data-id="c1" data-name="Sol de Guanacaste" data-price="25000" data-category="bikini" data-desc="Un bikini de dos piezas en un deslumbrante tono dorado texturizado. Su top de corte clásico brinda excelente soporte, mientras que sus tirantes ajustables garantizan la comodidad ideal bajo el sol de Guanacaste.">
               <div class="c-img-wrap">
-                <img class="c-img" src="assets/images/hero_swimwear.png" alt="Bikini Sol de Guanacaste">
+                <img class="c-img" src="assets/images/hero_swimwear.png" alt="Bikini Sol de Guanacaste" loading="lazy" decoding="async">
               </div>
               <div class="c-info">
                 <span class="c-name">Sol de Guanacaste</span>
@@ -139,7 +221,7 @@
 
             <div class="c-slide p-card" data-id="c2" data-name="Musa Dorada" data-price="28000" data-category="bikini" data-desc="El modelo Musa Dorada destaca por su acabado satinado y sus herrajes bañados en oro que resisten el agua salada. Diseñado para brillar a la orilla del mar, realzando sutilmente tus curvas naturales.">
               <div class="c-img-wrap">
-                <img class="c-img" src="assets/images/swimwear_flatlay.png" alt="Bikini Musa Dorada">
+                <img class="c-img" src="assets/images/swimwear_flatlay.png" alt="Bikini Musa Dorada" loading="lazy" decoding="async">
               </div>
               <div class="c-info">
                 <span class="c-name">Musa Dorada</span>
@@ -149,7 +231,7 @@
 
             <div class="c-slide p-card" data-id="c3" data-name="Venus Tropical" data-price="29000" data-category="enterizo" data-desc="Enterizo de una pieza esculpido en tono crema, con un escote asimétrico vanguardista y corte de pierna alto. Una pieza sofisticada que transiciona perfectamente de la playa a un atardecer en el club de playa.">
               <div class="c-img-wrap">
-                <img class="c-img" src="assets/images/enterizo_fashion.png" alt="Enterizo Venus Tropical">
+                <img class="c-img" src="assets/images/enterizo_fashion.png" alt="Enterizo Venus Tropical" loading="lazy" decoding="async">
               </div>
               <div class="c-info">
                 <span class="c-name">Venus Tropical</span>
@@ -222,9 +304,9 @@
     <!-- SECCIÓN QUOTE / CITA -->
     <section class="quote">
       <img class="sculpt" src="assets/images/sculpt_aphrodite.png"
-        alt="Escultura Afrodita Colonna" aria-hidden="true" style="height:100%; top:0; left:2%; animation:floatB 12s ease-in-out infinite">
+        alt="" aria-hidden="true" loading="lazy" decoding="async" style="height:100%; top:0; left:2%; animation:floatB 12s ease-in-out infinite">
       <img class="sculpt" src="assets/images/sculpt_venus.png"
-        alt="Escultura Venus de Milo" aria-hidden="true" style="height:90%; top:5%; right:2%; opacity:0.20; animation:floatA 14s ease-in-out infinite">
+        alt="" aria-hidden="true" loading="lazy" decoding="async" style="height:90%; top:5%; right:2%; opacity:0.20; animation:floatA 14s ease-in-out infinite">
       
       <div class="quote-container">
         <span class="q-icon">“</span>
@@ -236,7 +318,7 @@
     <!-- SECCIÓN CUADRÍCULA DE PRODUCTOS (CATÁLOGO COMPLETO) -->
     <section class="g-section" id="coleccion">
       <img class="sculpt" src="assets/images/sculpt_diana.png"
-        alt="Escultura Diana de Versalles" aria-hidden="true" style="height:78%; top:10%; right:0%; opacity:0.22; animation:floatB 13s ease-in-out infinite">
+        alt="" aria-hidden="true" loading="lazy" decoding="async" style="height:78%; top:10%; right:0%; opacity:0.22; animation:floatB 13s ease-in-out infinite">
 
       <div class="g-container">
         <div class="s-head">
@@ -251,31 +333,41 @@
           <button class="filter-btn" data-filter="bikini">Bikinis</button>
           <button class="filter-btn" data-filter="enterizo">Enterizos</button>
           <button class="filter-btn" data-filter="accesorio">Accesorios</button>
-          <button class="filter-btn" data-filter="vestido">vestidos</button>
+          <button class="filter-btn" data-filter="vestido">Vestidos</button>
+        </div>
+        <!-- Filtros por Talla -->
+        <div class="filter-tabs size-filter-tabs" style="margin-top:0.8rem;">
+          <span class="size-filter-label">Talla:</span>
+          <button class="filter-btn size-btn active" data-size="all">Todas</button>
+          <button class="filter-btn size-btn" data-size="XS">XS</button>
+          <button class="filter-btn size-btn" data-size="S">S</button>
+          <button class="filter-btn size-btn" data-size="M">M</button>
+          <button class="filter-btn size-btn" data-size="L">L</button>
+          <button class="filter-btn size-btn" data-size="XL">XL</button>
         </div>
 
         <!-- Rejilla de Productos -->
         <div class="g-grid" id="grid">
           
-          <div class="p-card" data-id="p1" data-name="Afrodita" data-price="25000" data-category="bikini" data-desc="El bikini Afrodita es sinónimo de diosa marina. Confeccionado con tejido ultra suave, presenta un elegante color arena tostada y reguladores en la cadera para un entalle insuperable.">
+          <div class="p-card" data-id="p1" data-name="Afrodita" data-price="25000" data-category="bikini" data-sizes="S,M" data-desc="El bikini Afrodita es sinónimo de diosa marina. Confeccionado con tejido ultra suave, presenta un elegante color arena tostada y reguladores en la cadera para un entalle insuperable.">
             <div class="p-img-wrap">
               <span class="p-badge">Nuevo</span>
-              <img class="p-img" src="assets/images/hero_swimwear.png" alt="Bikini Afrodita">
+              <img class="p-img" src="assets/images/hero_swimwear.png" alt="Bikini Afrodita" loading="lazy" decoding="async">
             </div>
             <span class="p-name">Afrodita</span>
             <span class="p-price">₡25,000</span>
           </div>
 
-          <div class="p-card" data-id="p1" data-name="Athenea" data-price="15000" data-category="vestido" data-desc="El vestido Athenea es sinónimo de diosa de la caza. Confeccionado con tejido ultra suave, presenta un elegante color arena y reguladores en la cadera para un entalle insuperable.">
+          <div class="p-card" data-id="p1" data-name="Athenea" data-price="15000" data-category="vestido" data-sizes="XS,S" data-desc="El vestido Athenea es sinónimo de diosa de la caza. Confeccionado con tejido ultra suave, presenta un elegante color arena y reguladores en la cadera para un entalle insuperable.">
             <div class="p-img-wrap">
               <span class="p-badge">Nuevo</span>
-              <img class="p-img" src="assets/images/Athenea_Vestido.jpeg" alt="Vestido Athenea">
+              <img class="p-img" src="assets/images/Athenea_Vestido.jpeg" alt="Vestido Athenea" loading="lazy" decoding="async">
             </div>
             <span class="p-name">Athenea</span>
             <span class="p-price">₡15,000</span>
           </div>
           
-          <div class="p-card" data-id="p2" data-name="Diana" data-price="24500" data-category="bikini" data-desc="El modelo Diana evoca fuerza y elegancia activa. Con un top deportivo de estilo bandeau y tirantes gruesos desmontables, es idóneo para nadar o relajarse por igual.">
+          <div class="p-card" data-id="p2" data-name="Diana" data-price="24500" data-category="bikini" data-sizes="M,L,XL" data-desc="El modelo Diana evoca fuerza y elegancia activa. Con un top deportivo de estilo bandeau y tirantes gruesos desmontables, es idóneo para nadar o relajarse por igual.">
             <div class="p-img-wrap">
               <img class="p-img" src="https://picsum.photos/seed/p2/400/533" alt="Bikini Diana">
             </div>
@@ -283,24 +375,24 @@
             <span class="p-price">₡24,500</span>
           </div>
           
-          <div class="p-card" data-id="p3" data-name="Selene" data-price="27000" data-category="bikini" data-desc="Inspirado en el brillo lunar sobre el océano nocturno, Selene destaca por un tejido brillante satinado de tono ocre y sus delicadas lazadas cruzadas en la espalda.">
+          <div class="p-card" data-id="p3" data-name="Selene" data-price="27000" data-category="bikini" data-sizes="XS" data-desc="Inspirado en el brillo lunar sobre el océano nocturno, Selene destaca por un tejido brillante satinado de tono ocre y sus delicadas lazadas cruzadas en la espalda.">
             <div class="p-img-wrap">
               <span class="p-badge">Favorita</span>
-              <img class="p-img" src="assets/images/swimwear_flatlay.png" alt="Bikini Selene">
+              <img class="p-img" src="assets/images/swimwear_flatlay.png" alt="Bikini Selene" loading="lazy" decoding="async">
             </div>
             <span class="p-name">Selene</span>
             <span class="p-price">₡27,000</span>
           </div>
           
-          <div class="p-card" data-id="p4" data-name="Calíope" data-price="28500" data-category="enterizo" data-desc="Elegancia de una sola pieza. El monokini Calíope cuenta con una preciosa espalda descubierta y un escote drapeado en el pecho, ofreciendo un look de alta costura playera.">
+          <div class="p-card" data-id="p4" data-name="Calíope" data-price="28500" data-category="enterizo" data-sizes="L,XL" data-desc="Elegancia de una sola pieza. El monokini Calíope cuenta con una preciosa espalda descubierta y un escote drapeado en el pecho, ofreciendo un look de alta costura playera.">
             <div class="p-img-wrap">
-              <img class="p-img" src="assets/images/enterizo_fashion.png" alt="Enterizo Calíope">
+              <img class="p-img" src="assets/images/enterizo_fashion.png" alt="Enterizo Calíope" loading="lazy" decoding="async">
             </div>
             <span class="p-name">Calíope</span>
             <span class="p-price">₡28,500</span>
           </div>
           
-          <div class="p-card" data-id="p5" data-name="Erato" data-price="26000" data-category="bikini" data-desc="El bikini Erato destaca por su aire romántico y dulce. Copas ligeramente fruncidas y lazos delgados, en un color terracota sumamente favorecedor para todos los tonos de piel.">
+          <div class="p-card" data-id="p5" data-name="Erato" data-price="26000" data-category="bikini" data-sizes="XS,S,M,L,XL" data-desc="El bikini Erato destaca por su aire romántico y dulce. Copas ligeramente fruncidas y lazos delgados, en un color terracota sumamente favorecedor para todos los tonos de piel.">
             <div class="p-img-wrap">
               <span class="p-badge">Nuevo</span>
               <img class="p-img" src="https://picsum.photos/seed/p5/400/533" alt="Bikini Erato">
@@ -309,7 +401,7 @@
             <span class="p-price">₡26,000</span>
           </div>
           
-          <div class="p-card" data-id="p6" data-name="Terpsícore" data-price="25500" data-category="bikini" data-desc="Diseñado para fluir y danzar con la marea. Este modelo incorpora un top cruzado envolvente de gran sujeción y un panty de tiro alto retro y sumamente estilizado.">
+          <div class="p-card" data-id="p6" data-name="Terpsícore" data-price="25500" data-category="bikini" data-sizes="XS,S" data-desc="Diseñado para fluir y danzar con la marea. Este modelo incorpora un top cruzado envolvente de gran sujeción y un panty de tiro alto retro y sumamente estilizado.">
             <div class="p-img-wrap">
               <img class="p-img" src="https://picsum.photos/seed/p6/400/533" alt="Bikini Terpsícore">
             </div>
@@ -317,7 +409,7 @@
             <span class="p-price">₡25,500</span>
           </div>
           
-          <div class="p-card" data-id="p7" data-name="Pareo Talía" data-price="23000" data-category="accesorio" data-desc="Salida de baño tipo pareo corto, confeccionado en mezcla de lino y algodón ultra transpirable. De caída fluida y suave, el complemento perfecto para llevar sobre tu bikini favorito.">
+          <div class="p-card" data-id="p7" data-name="Pareo Talía" data-price="23000" data-category="accesorio" data-sizes="all" data-desc="Salida de baño tipo pareo corto, confeccionado en mezcla de lino y algodón ultra transpirable. De caída fluida y suave, el complemento perfecto para llevar sobre tu bikini favorito.">
             <div class="p-img-wrap">
               <img class="p-img" src="https://picsum.photos/seed/p7/400/533" alt="Pareo de Lino Talía">
             </div>
@@ -325,7 +417,7 @@
             <span class="p-price">₡23,000</span>
           </div>
           
-          <div class="p-card" data-id="p8" data-name="Urania" data-price="29000" data-category="enterizo" data-desc="Un enterizo sofisticado y escultural con cuello halter y detalles de aberturas (cut-out) en la cintura. Ideal para lucir un estilo moderno y lujoso en tus resorts favoritos.">
+          <div class="p-card" data-id="p8" data-name="Urania" data-price="29000" data-category="enterizo" data-sizes="M,L" data-desc="Un enterizo sofisticado y escultural con cuello halter y detalles de aberturas (cut-out) en la cintura. Ideal para lucir un estilo moderno y lujoso en tus resorts favoritos.">
             <div class="p-img-wrap">
               <span class="p-badge">Favorita</span>
               <img class="p-img" src="https://picsum.photos/seed/p8/400/533" alt="Enterizo Urania">
@@ -391,6 +483,47 @@
       </div>
     </section>
 
+    <!-- SECCIÓN FEED DE INSTAGRAM -->
+    <section class="ig-section">
+      <div class="ig-header">
+        <div class="s-head" style="text-align:center;">
+          <span class="s-label">Instagram</span>
+          <h2 class="s-title">@lesmuses.cr</h2>
+        </div>
+        <div class="divider"></div>
+        <p class="ig-subtitle">Síguenos para ver las últimas colecciones, looks editoriales y musas reales.</p>
+      </div>
+      <div class="ig-grid">
+        <a href="https://www.instagram.com/lesmuses.cr/" target="_blank" rel="noopener" class="ig-post" aria-label="Ver en Instagram">
+          <img src="assets/images/hero_swimwear.png" alt="Les Muses CR Instagram" loading="lazy" decoding="async">
+          <div class="ig-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none"/></svg></div>
+        </a>
+        <a href="https://www.instagram.com/lesmuses.cr/" target="_blank" rel="noopener" class="ig-post" aria-label="Ver en Instagram">
+          <img src="assets/images/swimwear_flatlay.png" alt="Les Muses CR Instagram" loading="lazy" decoding="async">
+          <div class="ig-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none"/></svg></div>
+        </a>
+        <a href="https://www.instagram.com/lesmuses.cr/" target="_blank" rel="noopener" class="ig-post" aria-label="Ver en Instagram">
+          <img src="assets/images/Athenea_Vestido.jpeg" alt="Les Muses CR Instagram" loading="lazy" decoding="async">
+          <div class="ig-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none"/></svg></div>
+        </a>
+        <a href="https://www.instagram.com/lesmuses.cr/" target="_blank" rel="noopener" class="ig-post" aria-label="Ver en Instagram">
+          <img src="assets/images/enterizo_fashion.png" alt="Les Muses CR Instagram" loading="lazy" decoding="async">
+          <div class="ig-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none"/></svg></div>
+        </a>
+        <a href="https://www.instagram.com/lesmuses.cr/" target="_blank" rel="noopener" class="ig-post" aria-label="Ver en Instagram">
+          <img src="https://picsum.photos/seed/ig5/400/400" alt="Les Muses CR Instagram" loading="lazy" decoding="async">
+          <div class="ig-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none"/></svg></div>
+        </a>
+        <a href="https://www.instagram.com/lesmuses.cr/" target="_blank" rel="noopener" class="ig-post" aria-label="Ver en Instagram">
+          <img src="https://picsum.photos/seed/ig6/400/400" alt="Les Muses CR Instagram" loading="lazy" decoding="async">
+          <div class="ig-overlay"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="white" stroke="none"/></svg></div>
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:2.5rem;">
+        <a href="https://www.instagram.com/lesmuses.cr/" target="_blank" rel="noopener" class="btn btn-outline-dark">Seguirnos en Instagram</a>
+      </div>
+    </section>
+
     <!-- BARRA NEWSLETTER -->
     <section class="newsletter-bar">
       <div class="newsletter-container">
@@ -407,7 +540,7 @@
   <!-- PIE DE PÁGINA (FOOTER) -->
   <footer>
     <img class="sculpt" src="assets/images/sculpt_nike.png"
-      alt="Escultura Victoria de Samotracias" aria-hidden="true" style="height:150%; top:-25%; right:5%; opacity:0.12; animation:floatA 10s ease-in-out infinite">
+      alt="" aria-hidden="true" loading="lazy" decoding="async" style="height:150%; top:-25%; right:5%; opacity:0.12; animation:floatA 10s ease-in-out infinite">
     
     <div class="footer-container">
       <span class="f-logo">Les Muses<span>.</span></span>
@@ -450,11 +583,16 @@
           Detalle del producto...
         </p>
         
-        <span class="modal-selector-title">Seleccionar Talla</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+          <span class="modal-selector-title" style="margin-bottom:0;">Seleccionar Talla</span>
+          <button class="size-guide-btn" id="size-guide-btn" type="button">¿Mi talla?</button>
+        </div>
         <div class="size-selector" role="radiogroup" aria-label="Selección de Talla">
+          <button class="size-option" data-size="XS" role="radio" aria-checked="false">XS</button>
           <button class="size-option" data-size="S" role="radio" aria-checked="false">S</button>
           <button class="size-option active" data-size="M" role="radio" aria-checked="true">M</button>
           <button class="size-option" data-size="L" role="radio" aria-checked="false">L</button>
+          <button class="size-option" data-size="XL" role="radio" aria-checked="false">XL</button>
         </div>
         
         <div class="modal-actions">
@@ -469,9 +607,12 @@
   <aside class="cart-drawer" id="cart-drawer" aria-labelledby="cart-title">
     <div class="cart-header">
       <h3 class="cart-header-title" id="cart-title">Tu Selección</h3>
-      <button class="cart-close" id="cart-close" aria-label="Cerrar Carrito">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
+      <div style="display:flex;align-items:center;gap:0.8rem;">
+        <button id="cart-clear" aria-label="Vaciar carrito" style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:0.4rem 0;border-bottom:0.5px solid transparent;transition:all 0.2s;">Vaciar todo</button>
+        <button class="cart-close" id="cart-close" aria-label="Cerrar Carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
     </div>
     
     <!-- Lista de Artículos (Dinámica) -->
@@ -486,11 +627,70 @@
         <span class="cart-summary-value" id="cart-subtotal">₡0</span>
       </div>
       <button class="btn btn-solid cart-checkout-btn" id="cart-checkout">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        <span>Ordenar por WhatsApp</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <span>Ordenar por Instagram</span>
       </button>
     </div>
   </aside>
+
+  <!-- MODAL GUÍA DE TALLAS -->
+  <dialog class="size-guide-modal" id="size-guide-modal">
+    <div class="sg-content">
+      <div class="sg-header">
+        <div>
+          <span class="s-label">Tabla de Medidas</span>
+          <h3 class="sg-title">Guía de Tallas</h3>
+        </div>
+        <button class="modal-close" id="sg-close" aria-label="Cerrar guía de tallas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p class="sg-intro">Medidas en centímetros. Mídete sin ropa para mayor precisión.</p>
+      <div class="sg-table-wrap">
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>Talla</th>
+              <th>Busto</th>
+              <th>Cintura</th>
+              <th>Cadera</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>XS</td><td>78 – 82</td><td>60 – 64</td><td>86 – 90</td></tr>
+            <tr><td>S</td><td>82 – 86</td><td>64 – 68</td><td>90 – 94</td></tr>
+            <tr class="sg-row-highlight"><td>M</td><td>86 – 90</td><td>68 – 72</td><td>94 – 98</td></tr>
+            <tr><td>L</td><td>90 – 94</td><td>72 – 76</td><td>98 – 102</td></tr>
+            <tr><td>XL</td><td>94 – 98</td><td>76 – 80</td><td>102 – 106</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sg-tip">Si estás entre dos tallas, te recomendamos elegir la talla mayor para mayor comodidad. Para enterizos, considera la altura también.</p>
+    </div>
+  </dialog>
+
+  <!-- POPUP NEWSLETTER CON INCENTIVO -->
+  <div class="nl-popup-overlay" id="nl-popup-overlay" aria-hidden="true">
+    <div class="nl-popup" role="dialog" aria-labelledby="nl-popup-title">
+      <button class="nl-popup-close" id="nl-popup-close" aria-label="Cerrar">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="nl-popup-visual">
+        <img src="assets/images/hero_swimwear.png" alt="Les Muses CR" loading="lazy" decoding="async">
+        <div class="nl-popup-badge">10% OFF</div>
+      </div>
+      <div class="nl-popup-body">
+        <span class="s-label">Bienvenida, Musa</span>
+        <h3 class="nl-popup-title" id="nl-popup-title">Un regalo de bienvenida</h3>
+        <p class="nl-popup-text">Suscríbete y recibe <strong>10% de descuento en tu primera compra</strong>. Además, serás la primera en conocer nuevas colecciones y ediciones limitadas.</p>
+        <form class="nl-popup-form" id="nl-popup-form">
+          <input class="form-input" type="email" required placeholder="tu@correo.com" aria-label="Correo electrónico">
+          <button class="btn btn-solid" type="submit">Obtener mi descuento</button>
+        </form>
+        <button class="nl-popup-skip" id="nl-popup-skip">No, gracias</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
