@@ -103,8 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (track && prevBtn && nextBtn && dotsContainer) {
     const slides = Array.from(track.querySelectorAll('.c-slide'));
-    const numClones = 3; // Clonamos 3 elementos para soportar pantallas anchas con loop suave
-    let currentIndex = numClones; // Comenzamos en el primer elemento original (índice 3)
+    const numClones = 4;
+    let currentIndex = numClones;
     let isTransitioning = false;
 
     // Clonación de elementos (inicio y final) para el efecto infinito
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getStep = () => {
       const gap = parseFloat(getComputedStyle(track).gap) || 20;
-      return slides[0].getBoundingClientRect().width + gap;
+      return slides[0].offsetWidth + gap;
     };
 
     // Crear dots indicadores para los productos originales
@@ -302,11 +302,26 @@ document.addEventListener('DOMContentLoaded', () => {
     modalPrice.textContent = `₡${parseInt(productData.price).toLocaleString('es-CR')}`;
     modalDesc.textContent = productData.desc || 'Una pieza de diseño exclusivo elaborada con telas premium para ofrecer la máxima comodidad y elegancia bajo el sol.';
 
-    // Reiniciar selector de talla a 'M'
+    // Configurar tallas disponibles del producto
+    const availableSizes = productData.sizes === 'all'
+      ? null  // null = todas disponibles
+      : productData.sizes ? productData.sizes.split(',') : null;
+
+    sizeOptions.forEach(o => {
+      const size = o.getAttribute('data-size');
+      const available = !availableSizes || availableSizes.includes(size);
+      o.classList.remove('active', 'size-unavailable');
+      o.disabled = !available;
+      if (!available) o.classList.add('size-unavailable');
+    });
+
+    // Seleccionar primera talla disponible
+    const firstAvailable = Array.from(sizeOptions).find(o => !o.disabled);
     sizeOptions.forEach(o => o.classList.remove('active'));
-    const defaultSizeOpt = Array.from(sizeOptions).find(o => o.getAttribute('data-size') === 'M');
-    if (defaultSizeOpt) defaultSizeOpt.classList.add('active');
-    selectedSize = 'M';
+    if (firstAvailable) {
+      firstAvailable.classList.add('active');
+      selectedSize = firstAvailable.getAttribute('data-size');
+    }
 
     modal.showModal();
     // Prevenir el scroll del body
@@ -355,7 +370,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (category === 'accesorio') categoryName = 'Accesorio';
       if (category === 'vestido') categoryName = 'Vestido';
 
-      openProductModal({ id, name, price, img, category, categoryName, desc });
+      const sizes = card.getAttribute('data-sizes') || 'all';
+      openProductModal({ id, name, price, img, category, categoryName, desc, sizes });
     });
   };
 
@@ -505,8 +521,22 @@ document.addEventListener('DOMContentLoaded', () => {
       cartItemsWrap.appendChild(itemEl);
     });
 
-    cartSubtotal.textContent = `₡${subtotal.toLocaleString('es-CR')}`;
-    
+    // Mostrar total con o sin descuento
+    if (couponApplied) {
+      const discount = Math.round(subtotal * COUPON_DISCOUNT);
+      const total = subtotal - discount;
+      cartOriginalPrice.textContent = `₡${subtotal.toLocaleString('es-CR')}`;
+      cartOriginalRow.style.display = 'flex';
+      cartSubtotal.textContent = `₡${total.toLocaleString('es-CR')}`;
+      cartSubtotal.style.color = 'var(--accent)';
+    } else {
+      cartOriginalRow.style.display = 'none';
+      cartSubtotal.textContent = `₡${subtotal.toLocaleString('es-CR')}`;
+      cartSubtotal.style.color = '';
+    }
+
+    initCoupon();
+
     // Actualizar indicador de cantidad del Header
     cartCount.style.display = 'flex';
     cartCount.textContent = totalItems;
@@ -587,6 +617,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2200);
   });
 
+  // ==========================================================================
+  // CUPÓN DE DESCUENTO
+  // ==========================================================================
+  const COUPON_CODE = 'MUSA10';
+  const COUPON_DISCOUNT = 0.10;
+  let couponApplied = false;
+
+  const couponRow = document.getElementById('coupon-row');
+  const couponApplyBtn = document.getElementById('coupon-apply-btn');
+  const couponChip = document.getElementById('coupon-chip');
+  const cartOriginalRow = document.getElementById('cart-original-row');
+  const cartOriginalPrice = document.getElementById('cart-original-price');
+
+  const initCoupon = () => {
+    const couponState = localStorage.getItem('lesmuses_coupon');
+    if (couponState === COUPON_CODE) {
+      couponRow.style.display = 'flex';
+    } else {
+      couponRow.style.display = 'none';
+    }
+    // Si ya estaba aplicado en esta sesión, restaurar el estado visual
+    if (couponApplied) applyCouponVisual();
+  };
+
+  const applyCouponVisual = () => {
+    couponApplyBtn.textContent = '✓ Aplicado';
+    couponApplyBtn.disabled = true;
+    couponRow.classList.add('coupon-applied');
+    cartOriginalRow.style.display = 'flex';
+  };
+
+  if (couponApplyBtn) {
+    couponApplyBtn.addEventListener('click', () => {
+      if (couponApplied) return;
+      couponApplied = true;
+      applyCouponVisual();
+      renderCart(); // recalcula el total con descuento
+    });
+  }
+
   // Finalizar Compra - Instagram
   checkoutBtn.addEventListener('click', () => {
     if (cart.length === 0) return;
@@ -600,7 +670,20 @@ document.addEventListener('DOMContentLoaded', () => {
       messageText += `• ${item.name} (Talla ${item.size}) x${item.quantity} — ₡${itemTotal.toLocaleString('es-CR')}\n`;
     });
 
-    messageText += `\nTotal: ₡${subtotal.toLocaleString('es-CR')}\nEnvío a convenir en Costa Rica.`;
+    if (couponApplied) {
+      const discount = Math.round(subtotal * COUPON_DISCOUNT);
+      const total = subtotal - discount;
+      messageText += `\nSubtotal: ₡${subtotal.toLocaleString('es-CR')}`;
+      messageText += `\nCupón ${COUPON_CODE} (−10%): −₡${discount.toLocaleString('es-CR')}`;
+      messageText += `\nTotal: ₡${total.toLocaleString('es-CR')}`;
+      // Marcar cupón como usado — no se puede volver a aplicar
+      localStorage.setItem('lesmuses_coupon', 'used');
+      couponApplied = false;
+    } else {
+      messageText += `\nTotal: ₡${subtotal.toLocaleString('es-CR')}`;
+    }
+
+    messageText += `\nEnvío a convenir en Costa Rica.`;
 
     if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
       // Móvil: share sheet nativo — el texto llega directo al chat de Instagram
@@ -823,36 +906,37 @@ document.addEventListener('DOMContentLoaded', () => {
     nlOverlay.setAttribute('aria-hidden', 'true');
   };
 
-  if (nlOverlay && !localStorage.getItem('lesmuses_newsletter')) {
+  const alreadySubscribed = localStorage.getItem('lesmuses_newsletter') === 'subscribed';
+  const dismissedThisSession = sessionStorage.getItem('lesmuses_nl_dismissed');
+
+  if (nlOverlay && !alreadySubscribed && !dismissedThisSession) {
     setTimeout(() => {
       nlOverlay.classList.add('visible');
       nlOverlay.setAttribute('aria-hidden', 'false');
     }, 4500);
 
-    nlClose.addEventListener('click', () => {
+    const dismissPopup = () => {
       hideNlPopup();
-      localStorage.setItem('lesmuses_newsletter', 'dismissed');
-    });
-    nlSkip.addEventListener('click', () => {
-      hideNlPopup();
-      localStorage.setItem('lesmuses_newsletter', 'dismissed');
-    });
+      sessionStorage.setItem('lesmuses_nl_dismissed', '1');
+    };
+
+    nlClose.addEventListener('click', dismissPopup);
+    nlSkip.addEventListener('click', dismissPopup);
     nlOverlay.addEventListener('click', (e) => {
-      if (e.target === nlOverlay) {
-        hideNlPopup();
-        localStorage.setItem('lesmuses_newsletter', 'dismissed');
-      }
+      if (e.target === nlOverlay) dismissPopup();
     });
     if (nlForm) {
       nlForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const btn = nlForm.querySelector('button[type="submit"]');
-        btn.textContent = 'Codigo: MUSA10';
+        btn.textContent = 'Código: MUSA10 · 10% OFF';
         btn.style.background = 'transparent';
         btn.style.color = 'var(--accent)';
         btn.style.border = '0.5px solid var(--accent)';
         btn.disabled = true;
         localStorage.setItem('lesmuses_newsletter', 'subscribed');
+        // Guardar cupón activo — aparecerá en el carrito
+        localStorage.setItem('lesmuses_coupon', COUPON_CODE);
         setTimeout(hideNlPopup, 2800);
       });
     }

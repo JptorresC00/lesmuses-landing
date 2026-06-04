@@ -632,12 +632,12 @@ section, .hero, .philosophy, .c-section, .quote, .g-section, .contact-section, .
 .c-track {
   display: flex;
   width: 100%;
-  gap: 1.8rem;
+  gap: 1rem;
   transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .c-slide {
-  flex: 0 0 calc(33.333% - 1.2rem);
+  flex: 0 0 calc(25% - 0.75rem);
   cursor: pointer;
   transition: var(--transition-smooth);
 }
@@ -2346,6 +2346,17 @@ footer {
   .nl-popup-visual { display: none; }
   .nl-popup-body { padding: 2rem 1.5rem; }
   .size-guide-modal { width: 95%; }
-  .announce-bar { font-size: 0.65rem; padding: 0.6rem 2.5rem 0.6rem 1rem; }
+  .announce-bar {
+    font-size: 0.62rem;
+    padding: 0.5rem 2.8rem 0.5rem 0.8rem;
+    min-height: 40px;
+    letter-spacing: 0.07em;
+  }
+  .announce-content {
+    gap: 0.25rem;
+    flex-direction: column;
+    text-align: center;
+  }
   .announce-sep { display: none; }
+  .announce-close { right: 0.7rem; }
 }
