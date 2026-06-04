@@ -1307,6 +1307,14 @@ textarea.form-input {
   border-color: var(--text-main);
 }
 
+.size-option.size-unavailable,
+.size-option:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  pointer-events: none;
+}
+
 .modal-actions {
   margin-top: 1rem;
 }
@@ -1555,6 +1563,62 @@ textarea.form-input {
   font-size: 1.6rem;
   font-weight: 400;
   color: var(--text-main);
+}
+
+.coupon-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  padding: 0.8rem 1rem;
+  background: var(--bg-secondary);
+  border: 0.5px solid var(--border-light);
+}
+.coupon-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--text-main);
+}
+.coupon-chip svg { color: var(--accent); flex-shrink: 0; }
+.coupon-discount-badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  background: var(--accent);
+  color: var(--bg-primary);
+  padding: 0.15rem 0.45rem;
+  font-weight: 600;
+}
+.coupon-apply-btn {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: none;
+  border: 0.5px solid var(--border-dark);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: all 0.2s;
+}
+.coupon-apply-btn:hover { background: var(--text-main); color: var(--bg-primary); }
+.coupon-apply-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+.coupon-applied .coupon-chip { color: var(--accent); }
+.coupon-applied .coupon-apply-btn {
+  border-color: var(--accent);
+  color: var(--accent);
+  pointer-events: none;
+}
+.cart-original-price {
+  font-size: 1rem !important;
+  text-decoration: line-through;
+  color: var(--text-muted) !important;
 }
 
 .cart-checkout-btn {
@@ -2097,8 +2161,9 @@ footer {
 .size-guide-modal {
   border: 0.5px solid var(--border-dark);
   padding: 0;
-  max-width: 520px;
-  width: 90%;
+  max-width: 860px;
+  width: 94%;
+  margin: auto;
   background: var(--bg-primary);
   box-shadow: 0 25px 60px rgba(42,31,20,0.18);
 }
@@ -2106,34 +2171,34 @@ footer {
   background: rgba(31,21,13,0.5);
   backdrop-filter: blur(6px);
 }
-.sg-content { padding: 2rem; }
-.sg-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
-.sg-title { font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; margin: 0.2rem 0 0; }
-.sg-intro { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 1.5rem; }
+.sg-content { padding: 2.5rem; }
+.sg-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.2rem; }
+.sg-title { font-family: var(--font-serif); font-size: 1.7rem; font-style: italic; margin: 0.2rem 0 0; }
+.sg-intro { font-size: 0.88rem; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 1.8rem; }
 .sg-table-wrap { overflow-x: auto; }
-.sg-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.sg-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
 .sg-table th {
   text-transform: uppercase;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   letter-spacing: 0.15em;
   color: var(--text-muted);
   border-bottom: 0.5px solid var(--border-dark);
-  padding: 0.6rem 1rem;
+  padding: 0.75rem 1.2rem;
   text-align: left;
 }
 .sg-table td {
-  padding: 0.75rem 1rem;
+  padding: 0.9rem 1.2rem;
   border-bottom: 0.5px solid var(--border-light);
   color: var(--text-main);
 }
 .sg-table td:first-child { font-weight: 600; letter-spacing: 0.08em; }
 .sg-row-highlight td { background: var(--bg-secondary); color: var(--accent); }
 .sg-tip {
-  margin-top: 1.2rem;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  padding: 0.8rem;
+  margin-top: 1.4rem;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.7;
+  padding: 1rem 1.2rem;
   border-left: 2px solid var(--accent);
   background: var(--bg-secondary);
 }
