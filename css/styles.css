@@ -1857,6 +1857,15 @@ footer {
 
   .sculpt {
     opacity: 0.10 !important;
+    max-height: 70% !important;
+  }
+
+  .hero,
+  .philosophy,
+  .c-section,
+  .g-section,
+  .contact-section {
+    overflow: hidden;
   }
 
   /* Secciones: menos padding vertical */
@@ -1928,8 +1937,14 @@ footer {
   /* Grid de productos: 2 columnas en móvil */
   .g-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 1rem;
+    gap: 1.2rem 0.8rem;
   }
+  .p-img-wrap {
+    aspect-ratio: 4/5;
+    margin-bottom: 0.6rem;
+  }
+  .p-name { font-size: 1rem; margin-bottom: 0.2rem; }
+  .p-price { font-size: 0.78rem; }
 
   /* Carrito: ancho completo en móvil */
   .cart-drawer {
@@ -1951,25 +1966,76 @@ footer {
     width: 70px;
   }
 
-  /* Modal: pantalla completa en móvil */
+  /* Modal: centrado en móvil */
   .p-modal {
-    width: 100%;
+    width: 92%;
     max-width: 100%;
-    margin: 0;
-    position: fixed;
-    bottom: 0;
+    margin: auto;
+    padding: 0;
+    max-height: 88vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(42,31,20,0.22);
+    transform: scale(0.95);
+  }
+
+  .p-modal[open] {
+    transform: scale(1);
   }
 
   .modal-content {
     grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
 
   .modal-gallery {
-    aspect-ratio: 16/9;
+    width: 100%;
+    aspect-ratio: auto;
+    height: 44vh;
+    flex-shrink: 0;
+  }
+
+  .modal-gallery img {
+    object-fit: cover;
+    object-position: top center;
   }
 
   .modal-details-wrap {
-    padding: 2rem 1.5rem;
+    padding: 1rem 1.2rem 1.2rem;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .modal-category { margin-bottom: 0.2rem; font-size: 0.6rem; }
+
+  .modal-title { font-size: 1.4rem; margin-bottom: 0.3rem; }
+
+  .modal-price { font-size: 0.95rem; margin-bottom: 0.8rem; }
+
+  .modal-desc {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .modal-selector-title { margin-bottom: 0.5rem; font-size: 0.62rem; }
+
+  .size-selector { gap: 0.5rem; margin-bottom: 0.9rem; }
+
+  .size-option { width: 38px; height: 38px; font-size: 0.72rem; }
+
+  .modal-actions { margin-top: 0; }
+
+  .modal-close {
+    top: 0.7rem;
+    right: 0.7rem;
+    width: 34px;
+    height: 34px;
   }
 
   /* Hero texto centrado */
@@ -2023,8 +2089,8 @@ footer {
 
 @media (max-width: 480px) {
   .g-grid {
-    grid-template-columns: 1fr;
-    max-width: 320px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
     margin: 0 auto;
   }
   
@@ -2345,7 +2411,18 @@ footer {
   .nl-popup { grid-template-columns: 1fr; max-width: 420px; }
   .nl-popup-visual { display: none; }
   .nl-popup-body { padding: 2rem 1.5rem; }
-  .size-guide-modal { width: 95%; }
+  .size-guide-modal {
+    width: 95%;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .sg-content { padding: 1.2rem 1rem; }
+  .sg-title { font-size: 1.2rem; }
+  .sg-intro { font-size: 0.76rem; margin-bottom: 1rem; }
+  .sg-table { font-size: 0.76rem; }
+  .sg-table th { font-size: 0.6rem; padding: 0.5rem 0.6rem; letter-spacing: 0.08em; }
+  .sg-table td { padding: 0.55rem 0.6rem; font-size: 0.76rem; }
+  .sg-tip { font-size: 0.78rem; padding: 0.7rem 0.9rem; margin-top: 1rem; }
   .announce-bar {
     font-size: 0.62rem;
     padding: 0.5rem 2.8rem 0.5rem 0.8rem;

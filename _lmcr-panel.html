@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les Muses — Panel</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+  <!-- ── LOGIN ────────────────────────────────────────────── -->
+  <div id="login-section">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-name">Les Muses<span>.</span></span>
+        <div class="brand-line"></div>
+        <span class="brand-sub">Panel de administración</span>
+      </div>
+      <form id="login-form" autocomplete="on">
+        <input type="email" id="login-email" placeholder="Correo electrónico" required autocomplete="email">
+        <input type="password" id="login-password" placeholder="Contraseña" required autocomplete="current-password">
+        <button type="submit">Acceder</button>
+      </form>
+      <p id="login-error"></p>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD ─────────────────────────────────────────── -->
+  <div id="dashboard-section" style="display:none">
+
+    <header class="admin-header">
+      <div class="header-brand">
+        <h1>Les Muses<span>.</span></h1>
+        <span class="header-badge">Admin</span>
+      </div>
+      <button id="logout-btn">Cerrar sesión</button>
+    </header>
+
+    <main class="admin-main">
+
+      <!-- Agregar producto -->
+      <section class="admin-section">
+        <div class="section-header">
+          <h2>Agregar producto</h2>
+        </div>
+        <div class="section-body">
+          <form id="add-product-form" autocomplete="off">
+            <div class="form-grid">
+
+              <div class="form-group">
+                <label for="prod-nombre">Nombre</label>
+                <input type="text" id="prod-nombre" placeholder="Ej: Afrodita" required>
+              </div>
+
+              <div class="form-group">
+                <label for="prod-precio">Precio (₡)</label>
+                <input type="number" id="prod-precio" placeholder="25000" min="0" required>
+              </div>
+
+              <div class="form-group">
+                <label for="prod-categoria">Categoría</label>
+                <select id="prod-categoria" required>
+                  <option value="">Seleccionar...</option>
+                  <option value="bikini">Bikini</option>
+                  <option value="enterizo">Enterizo / Monokini</option>
+                  <option value="vestido">Vestido</option>
+                  <option value="accesorio">Accesorio</option>
+                  <option value="pareo">Pareo</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Tallas disponibles</label>
+                <div class="size-checks">
+                  <label><input type="checkbox" value="XS"> XS</label>
+                  <label><input type="checkbox" value="S"> S</label>
+                  <label><input type="checkbox" value="M"> M</label>
+                  <label><input type="checkbox" value="L"> L</label>
+                  <label><input type="checkbox" value="XL"> XL</label>
+                  <label><input type="checkbox" value="all" id="all-sizes"> Todas</label>
+                </div>
+              </div>
+
+              <div class="form-group full">
+                <label for="prod-descripcion">Descripción</label>
+                <textarea id="prod-descripcion" rows="3" placeholder="Describe el producto..." required></textarea>
+              </div>
+
+              <div class="form-group full">
+                <label for="prod-imagen">Foto del producto</label>
+                <input type="file" id="prod-imagen" accept="image/*" required>
+                <div id="imagen-preview"></div>
+              </div>
+
+              <div class="form-group full">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="prod-destacado">
+                  Mostrar en sección &ldquo;Favoritas&rdquo; (carrusel)
+                </label>
+              </div>
+
+            </div>
+
+            <button type="submit" id="add-btn">Agregar producto</button>
+            <p id="add-status" class="status-msg"></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- Lista de productos -->
+      <section class="admin-section">
+        <div class="section-header">
+          <h2>Productos</h2>
+          <span class="section-count" id="product-count"></span>
+        </div>
+        <div class="section-body">
+          <div id="products-list" class="products-list">
+            <p class="msg">Cargando...</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

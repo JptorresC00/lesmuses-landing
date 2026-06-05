@@ -1,16 +1,92 @@
-/**
- * LES MUSES CR - Lógica Interactiva Premium
- * 
- * Funcionalidades:
- * 1. Control del Carrusel Destacados (Soporta navegación, dots y gestos táctiles).
- * 2. Catálogo con Filtrado por Categoría.
- * 3. Modal de Detalle de Producto.
- * 4. Carrito de Compras completo en LocalStorage con salida a WhatsApp.
- * 5. Navegación móvil y efectos al hacer scroll (Header fijo y animaciones fade-in).
- * 6. Formularios de Contacto y Boletín interactivos con feedback visual.
- */
+import { db } from './firebase-config.js';
+import { collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+const FALLBACK_PRODUCTS = [];
+
+// ── Firebase: cargar productos ──────────────────────────────────────────────
+async function fetchProducts() {
+  try {
+    const snap = await getDocs(query(collection(db, 'productos'), orderBy('createdAt', 'asc')));
+    const prods = [];
+    snap.forEach(d => prods.push({ id: d.id, ...d.data() }));
+    const activos = prods.filter(p => p.activo !== false);
+    return activos.length > 0 ? activos : FALLBACK_PRODUCTS;
+  } catch (err) {
+    console.warn('Firestore no disponible, usando productos de respaldo:', err.message);
+    return FALLBACK_PRODUCTS;
+  }
+}
+
+const formatPrice = (n) => `₡${Number(n).toLocaleString('en-US')}`;
+
+function buildProductCard(p) {
+  return `<div class="p-card"
+    data-id="${p.id}"
+    data-name="${p.nombre}"
+    data-price="${p.precio}"
+    data-category="${p.categoria}"
+    data-sizes="${p.tallas || 'all'}"
+    data-desc="${(p.descripcion || '').replace(/"/g, '&quot;')}">
+    <div class="p-img-wrap">
+      <img class="p-img" src="${p.imagen}" alt="${p.nombre}" loading="lazy" decoding="async">
+    </div>
+    <div class="p-info">
+      <span class="p-name">${p.nombre}</span>
+      <span class="p-price">${formatPrice(p.precio)}</span>
+    </div>
+  </div>`;
+}
+
+function buildCarouselSlide(p) {
+  return `<div class="c-slide p-card"
+    data-id="${p.id}"
+    data-name="${p.nombre}"
+    data-price="${p.precio}"
+    data-category="${p.categoria}"
+    data-sizes="${p.tallas || 'all'}"
+    data-desc="${(p.descripcion || '').replace(/"/g, '&quot;')}">
+    <div class="c-img-wrap">
+      <img class="c-img" src="${p.imagen}" alt="${p.nombre}" loading="lazy" decoding="async">
+    </div>
+    <div class="c-info">
+      <span class="c-name">${p.nombre}</span>
+      <span class="c-price">${formatPrice(p.precio)}</span>
+    </div>
+  </div>`;
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // Cargar e inyectar productos desde Firestore
+  const products = await fetchProducts();
+
+  const grid = document.getElementById('grid');
+  if (grid) {
+    if (products.length > 0) {
+      grid.innerHTML = products.map(buildProductCard).join('');
+    } else {
+      grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem 1rem;font-size:0.85rem;letter-spacing:0.1em">Próximamente nuevos productos</p>';
+    }
+  }
+
+  const track = document.getElementById('track');
+  if (track) {
+    let destacados = products.filter(p => p.destacado);
+    if (destacados.length < 2) {
+      destacados = FALLBACK_PRODUCTS.filter(p => p.destacado);
+    }
+    track.innerHTML = destacados.map(buildCarouselSlide).join('');
+  }
+
+  // Limpiar carrito: eliminar productos que ya no existen en Firestore
+  if (products.length > 0) {
+    const validIds = new Set(products.map(p => p.id));
+    const storedCart = JSON.parse(localStorage.getItem('lesmuses_cart')) || [];
+    const cleanedCart = storedCart.filter(item => validIds.has(item.id));
+    if (cleanedCart.length !== storedCart.length) {
+      localStorage.setItem('lesmuses_cart', JSON.stringify(cleanedCart));
+    }
+  }
   
   // ==========================================================================
   // ESTADO GLOBAL DE LA APLICACIÓN
@@ -96,13 +172,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // CARRUSEL DE DESTACADOS (SWIPE + NAVIGATION) - BUCLE INFINITO SEAMLESS
   // ==========================================================================
-  const track = document.getElementById('track');
+  let carouselSwiping = false;
   const prevBtn = document.querySelector('.cprev');
   const nextBtn = document.querySelector('.cnext');
   const dotsContainer = document.getElementById('dots');
 
-  if (track && prevBtn && nextBtn && dotsContainer) {
-    const slides = Array.from(track.querySelectorAll('.c-slide'));
+  const rawSlides = track ? Array.from(track.querySelectorAll('.c-slide')) : [];
+  if (track && prevBtn && nextBtn && dotsContainer && rawSlides.length >= 2) {
+    const slides = rawSlides;
     const numClones = 4;
     let currentIndex = numClones;
     let isTransitioning = false;
@@ -203,12 +280,15 @@ document.addEventListener('DOMContentLoaded', () => {
     track.addEventListener('touchstart', (e) => {
       if (isTransitioning) return;
       startX = e.touches[0].clientX;
+      endX = startX;
       isDragging = true;
+      carouselSwiping = false;
     }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
       if (!isDragging) return;
       endX = e.touches[0].clientX;
+      if (Math.abs(endX - startX) > 8) carouselSwiping = true;
     }, { passive: true });
 
     track.addEventListener('touchend', () => {
@@ -216,12 +296,9 @@ document.addEventListener('DOMContentLoaded', () => {
       isDragging = false;
       const diffX = startX - endX;
       if (Math.abs(diffX) > 50) {
-        if (diffX > 0) {
-          goToSlide(currentIndex + 1);
-        } else {
-          goToSlide(currentIndex - 1);
-        }
+        goToSlide(diffX > 0 ? currentIndex + 1 : currentIndex - 1);
       }
+      setTimeout(() => { carouselSwiping = false; }, 300);
     });
 
     const initCarousel = () => {
@@ -353,8 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
       const card = e.target.closest('.p-card');
       if (!card) return;
-      
-      // Evitar abrir el modal si el clic fue en un botón interno (como añadir al carrito del drawer)
+      if (carouselSwiping) return;
       if (e.target.closest('button')) return;
       
       const id = card.getAttribute('data-id');
